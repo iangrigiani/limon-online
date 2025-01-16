@@ -1,5 +1,5 @@
 {
-  "name": "four-color-game-server",
+  "name": "limon-online-server",
   "version": "1.0.0",
   "description": "",
   "main": "src/app.js",
