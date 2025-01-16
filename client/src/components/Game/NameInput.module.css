@@ -1,0 +1,62 @@
+.nameInput {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--panel-bg-color);
+    border: 3px solid var(--highlight-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+}
+
+.nameInput h2 {
+    color: var(--highlight-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.nameInput input {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2em;
+    width: 120px;
+    text-align: center;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.nameInput input:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.buttons button {
+    font-family: 'Press Start 2P', cursive;
+    padding: 10px 20px;
+    background-color: var(--button-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.buttons button:hover:not(:disabled) {
+    background-color: var(--button-hover);
+}
+
+.buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+} 

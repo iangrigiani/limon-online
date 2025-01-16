@@ -1,0 +1,92 @@
+.gameBoard {
+    border: 4px solid var(--highlight-color);
+    border-radius: 2px;
+    margin: 0 auto 30px;
+    display: block;
+    background-color: var(--panel-bg-color);
+    box-shadow: 8px 8px 0px #000;
+    max-width: 100%;
+    height: auto;
+}
+
+.gameBoard :global(.node) {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    stroke: #000000;
+    stroke-width: 3;
+}
+
+.gameBoard :global(.connection) {
+    stroke: var(--border-color);
+    stroke-width: 3;
+    stroke-linecap: square;
+}
+
+.gameBoard :global(.node.selected) {
+    stroke: #00ffff;
+    stroke-width: 4;
+    filter: drop-shadow(0 0 5px #00ffff);
+}
+
+.gameBoard :global(.connection.connected-to-selected) {
+    stroke: #00ffff;
+    stroke-width: 4;
+    animation: pulse-connection 1s infinite;
+}
+
+.gameBoard :global(.node.connected-to-selected) {
+    stroke: #00ffff;
+    stroke-width: 4;
+}
+
+.gameBoard :global(.node.colored) {
+    transition: fill 0.2s ease;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+}
+
+.gameBoard :global(.node.uncolored) {
+    fill: #333333;
+}
+
+.gameBoard :global(.node:hover) {
+    filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    stroke-width: 4;
+}
+
+.gameBoard :global(.node.conflict) {
+    stroke: #ff0000;
+    stroke-width: 4;
+    animation: pulse-error 1s infinite;
+}
+
+.gameBoard :global(.node.correct) {
+    stroke: #00ff00;
+    stroke-width: 4;
+    animation: pulse-success 1s infinite;
+}
+
+@keyframes pulse-connection {
+    0% { stroke-width: 3; stroke-opacity: 0.6; }
+    50% { stroke-width: 4; stroke-opacity: 1; }
+    100% { stroke-width: 3; stroke-opacity: 0.6; }
+}
+
+@keyframes pulse-error {
+    0% { stroke-width: 4; filter: drop-shadow(0 0 2px #ff0000); }
+    50% { stroke-width: 6; filter: drop-shadow(0 0 8px #ff0000); }
+    100% { stroke-width: 4; filter: drop-shadow(0 0 2px #ff0000); }
+}
+
+@keyframes pulse-success {
+    0% { filter: drop-shadow(0 0 2px #00ff00); }
+    50% { filter: drop-shadow(0 0 8px #00ff00); }
+    100% { filter: drop-shadow(0 0 2px #00ff00); }
+}
+
+@media (max-width: 768px) {
+    .gameBoard {
+        width: 100%;
+        height: auto;
+        max-height: 90vh;
+    }
+} 
