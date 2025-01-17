@@ -3,6 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 export const gameService = {
     async loadLevel(levelNumber) {
+        console.log("process.env: " + JSON.stringify(process.env));
         try {
             const response = await fetch(`${API_URL}/game/level/${levelNumber}`);
             if (!response.ok) {

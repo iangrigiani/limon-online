@@ -27,5 +27,3 @@ if (PORT) {
         console.log(`Server running on port ${PORT}`);
     });
 }
-
-console.log("process.env: " + JSON.stringify(process.env));
