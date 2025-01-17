@@ -32,19 +32,34 @@ class PostgresRepository {
     }
 
     async getHighScores(level) {
-        const result = await this.pool.query(
-            'SELECT * FROM high_scores WHERE level = $1 ORDER BY time ASC LIMIT 10',
-            [level]
-        );
-        return result.rows;
+        try {
+            const result = await this.pool.query(
+                'SELECT * FROM high_scores WHERE level = $1 ORDER BY time ASC LIMIT 10',
+                [level]
+            );
+            return result.rows;
+        } catch (error) {
+            console.error('Error getting high scores:', error);
+            throw error;
+        }
     }
 
     async saveHighScore(level, playerName, time) {
-        const result = await this.pool.query(
-            'INSERT INTO high_scores (level, player_name, time) VALUES ($1, $2, $3) RETURNING id',
-            [level, playerName, time]
-        );
-        return result.rows[0].id;
+        try {
+            const result = await this.pool.query(
+                'INSERT INTO high_scores (level, player_name, time) VALUES ($1, $2, $3) RETURNING id',
+                [level, playerName, time]
+            );
+            return result.rows[0].id;
+        } catch (error) {
+            console.error('Error saving high score:', error);
+            throw error;
+        }
+    }
+
+    // Método para cerrar la conexión cuando sea necesario
+    async close() {
+        await this.pool.end();
     }
 }
 
