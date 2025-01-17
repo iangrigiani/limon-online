@@ -123,6 +123,12 @@ export function useGame() {
 
     const loadLevel = useCallback(async (level) => {
         try {
+            // Limpiar el intervalo existente si hay uno
+            if (timerInterval.current) {
+                clearInterval(timerInterval.current);
+                timerInterval.current = null;
+            }
+
             const data = await gameService.loadLevel(level);
             setNodes(data.nodes);
             setConnections(data.connections);
@@ -132,7 +138,7 @@ export function useGame() {
             setConflictNodes(new Set());
             setIsLevelComplete(false);
             setTime(0);
-            setTimerStarted(true);
+            setTimerStarted(false);
         } catch (error) {
             console.error('Error loading level:', error);
         }
@@ -140,7 +146,11 @@ export function useGame() {
 
     // Colorear nodo
     const colorNode = useCallback((nodeId, color) => {
-        if (!timerStarted) {
+        // Solo iniciar el timer si es la primera vez que se colorea un nodo
+        if (Object.keys(nodeColors).length === 0) {
+            if (timerInterval.current) {
+                clearInterval(timerInterval.current);
+            }
             setTimerStarted(true);
             timerInterval.current = setInterval(() => {
                 setTime(prev => prev + 10);
@@ -173,7 +183,7 @@ export function useGame() {
             
             return newColors;
         });
-    }, [nodes, timerStarted, getAdjacentNodes, levelComplete]);
+    }, [nodes, nodeColors, getAdjacentNodes, levelComplete]);
 
     // Manejar click en nodo
     const handleNodeClick = useCallback((nodeId) => {
