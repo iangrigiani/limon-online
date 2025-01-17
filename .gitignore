@@ -37,7 +37,7 @@ server/dist/
 server/build/
 server/logs/
 server/.cache/
-server/src/db/hisghscores.db
+server/src/db/highscores.db
 
 # Editor-specific
 .vscode/
