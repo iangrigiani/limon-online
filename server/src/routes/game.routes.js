@@ -32,4 +32,12 @@ router.post('/validate', (req, res) => {
     res.json({ isValid });
 });
 
+// GET /api/game/status
+router.get('/status', (req, res) => {
+    res.json({ 
+        status: 'ok',
+        timestamp: new Date().toISOString()
+    });
+});
+
 module.exports = router; 
