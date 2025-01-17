@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/init');
+const db = require('../db');
 
 // GET /api/highscores/:levelNumber
 router.get('/:levelNumber', (req, res) => {
