@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
         [level, playerName, time],
         function(err) {
             if (err) {
-                res.status(500).json({ error: 'Database error' });
+                res.status(500).json({ error: err.name + ' ' + err.message + ' ' + err.stack });
                 return;
             }
             res.json({ id: this.lastID });
