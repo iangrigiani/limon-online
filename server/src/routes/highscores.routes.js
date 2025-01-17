@@ -2,65 +2,28 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// GET /api/highscores/:levelNumber
-router.get('/:levelNumber', (req, res) => {
-    const levelNumber = parseInt(req.params.levelNumber);
-    
-    db.all(
-        `SELECT player_name, time 
-         FROM high_scores 
-         WHERE level = ? 
-         ORDER BY time ASC 
-         LIMIT 10`,
-        [levelNumber],
-        (err, rows) => {
-            if (err) {
-                res.status(500).json({ error: 'Database error' });
-                return;
-            }
-            res.json(rows);
-        }
-    );
+// GET /api/highscores/:level
+router.get('/:level', async (req, res) => {
+    try {
+        const level = parseInt(req.params.level);
+        const scores = await db.getHighScores(level);
+        res.json(scores);
+    } catch (error) {
+        console.error('Error getting high scores:', error);
+        res.status(500).json({ error: 'Error retrieving high scores' });
+    }
 });
 
 // POST /api/highscores
-router.post('/', (req, res) => {
-    const { level, playerName, time } = req.body;
-    
-    db.run(
-        `INSERT INTO high_scores (level, player_name, time) 
-         VALUES (?, ?, ?)`,
-        [level, playerName, time],
-        function(err) {
-            if (err) {
-                res.status(500).json({ error: err.name + ' ' + err.message + ' ' + err.stack });
-                return;
-            }
-            res.json({ id: this.lastID });
-        }
-    );
-});
-
-// GET /api/highscores/:levelNumber/check/:time
-router.get('/:levelNumber/check/:time', (req, res) => {
-    const levelNumber = parseInt(req.params.levelNumber);
-    const time = parseInt(req.params.time);
-    
-    db.get(
-        `SELECT COUNT(*) as count 
-         FROM high_scores 
-         WHERE level = ? AND time <= ? 
-         ORDER BY time ASC`,
-        [levelNumber, time],
-        (err, row) => {
-            if (err) {
-                res.status(500).json({ error: 'Database error' });
-                return;
-            }
-            const isHighScore = row.count < 10;
-            res.json({ isHighScore });
-        }
-    );
+router.post('/', async (req, res) => {
+    try {
+        const { level, playerName, time } = req.body;
+        const id = await db.saveHighScore(level, playerName, time);
+        res.json({ id });
+    } catch (error) {
+        console.error('Error saving high score:', error);
+        res.status(500).json({ error: 'Error saving high score' });
+    }
 });
 
 module.exports = router; 
