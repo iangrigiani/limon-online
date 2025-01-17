@@ -20,6 +20,4 @@ const config = {
 };
 
 const environment = process.env.NODE_ENV || 'development';
-console.log('process.env: ' + JSON.stringify(process.env));
-console.log('environment: ' + environment);
 module.exports = config[environment]; 
